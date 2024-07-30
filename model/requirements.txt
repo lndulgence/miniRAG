@@ -1,0 +1,2 @@
+fastapi==0.111.1
+llama_cpp_python==0.2.84
