@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from llama_cpp import Llama
+from llama_cpp import Llama, LLAMA_POOLING_TYPE_MEAN
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
@@ -17,7 +17,7 @@ async def startup_event():
     global embedder
     model_path = "./model.gguf"
     model = Llama(model_path=model_path)
-    embedder = Llama(model_path=model_path, embedding=True)
+    embedder = Llama(model_path=model_path, embedding=True, pooling_type=LLAMA_POOLING_TYPE_MEAN)
     print("Model loaded successfully")
 
 @app.get('/')
@@ -69,12 +69,18 @@ async def get_embeddings(request: Request):
         if 'text' in data:
             text = data['text']
 
+            print("Text: ", text)
             # Get the embeddings        
             print("Creating embeddings")
-            embeddings = embedder.create_embedding(text)
+            embedder.embed
+            embeddings = jsonable_encoder(embedder.create_embedding(text))["data"][0]["embedding"]
+
             resp = {
                 "embeddings": embeddings
             }
+
+            print("Embeddings created")
+
             return JSONResponse(content=jsonable_encoder(resp), status_code=200)
 
         else:

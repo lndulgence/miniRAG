@@ -1,6 +1,6 @@
 apiVersion: v2
-name: Rageddy
-description: A Helm chart for Kubernetes
+name: ragapi
+description: A Helm chart implementing a simple RagcAPI service
 
 # A chart can be either an 'application' or a 'library' chart.
 #

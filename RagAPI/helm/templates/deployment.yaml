@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "Rageddy.fullname" . }}
+  name: {{ include "ragapi.fullname" . }}
   labels:
-    {{- include "Rageddy.labels" . | nindent 4 }}
+    {{- include "ragapi.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "Rageddy.selectorLabels" . | nindent 6 }}
+      {{- include "ragapi.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "Rageddy.labels" . | nindent 8 }}
+        {{- include "ragapi.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,11 +27,12 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "Rageddy.serviceAccountName" . }}
+      serviceAccountName: {{ include "ragapi.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          command: ["fastapi", "run", "/app/main.py" ]
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -50,6 +51,33 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          env:
+            {{- if .Values.weaviate.port }}
+            - name: WEAVIATE_HTTP_PORT
+              value: "{{ .Values.weaviate.port }}"
+            {{- end }}
+            {{- if .Values.weaviate.host }}
+            - name: WEAVIATE_HTTP_HOST
+              value: "{{ .Values.weaviate.host }}"
+            {{- end }}
+            {{- if .Values.weaviate.grpcHost}}
+            - name: WEAVIATE_GRPC_HOST
+              value: "{{ .Values.weaviate.grpcHost }}"
+            {{- end }}
+            {{- if .Values.weaviate.grpcPort}}
+            - name: WEAVIATE_GRPC_PORT
+              value: "{{ .Values.weaviate.grpcPort }}"
+            {{- end }}
+            {{- if .Values.llama.port }}
+            - name: LLAMA_HTTP_PORT
+              value: "{{ .Values.llama.port }}"
+            {{- end }}
+            {{- if .Values.llama.host }}
+            - name: LLAMA_HTTP_HOST
+              value: "{{ .Values.llama.host }}"
+            {{- end }}
+
+
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
