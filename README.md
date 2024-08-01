@@ -15,14 +15,16 @@ All services are developed on a kubernetes cluster, though from an user standpoi
 
 Running kubectl get svc will give you the IP addresses for both, and in order to use each:
 
-POST <ragAPI IP>:8000/addDocument where the request body contains a "text" field, with the document to be added.
-POST <mainAPI IP>:8080/chat where the request body contains a "message" field with a message for the chatbot.
+POST ragAPI_IP:8000/addDocument where the request body contains a "text" field, with the document to be added.
+POST mainAPI_IP :8080/chat where the request body contains a "message" field with a message for the chatbot.
 
 If this is being deployed in a cloud environment, an ingress should be defined for both endpoints (such as Kong or nginx) in order to make them accessible from the outside.
 
 ## Additional considerations
 
 MiniRAG was meant as a personal project to further my own understanding of how LLM-based applications are deployed in cloud-based environments. At its current state, *it is more of a toy than a serious candidate for cloud deployment*. In order to improve the project towards a potential production environment, several points need to be addressed, such as the usage of a dedicated embedding model, which would possibly perform better at RAG than the current reused llama, and the addition of GPU bindings to improve response time (it is, as of now, VERY SLOW, even using models on the lighter side, whose perdformance is somewhat hindered by their minimal-ness). Additionally, due to memory constraints, previous conversation logs are not stored in context, though this would be vital when deploying a chatbot.
+
+Finally, since the internal python APIs are mostly called by other parts of the system, I have focused on keeping them lightweight, limiting schema validation to only the go API. However, this is not optional in a production environment.
 
 ### TODO
 >With more memory, in an actual cloud environment, migration to Langchain probably offers more functionality (like conversation logs)
