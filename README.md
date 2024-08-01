@@ -22,8 +22,10 @@ If this is being deployed in a cloud environment, an ingress should be defined f
 
 ## Additional considerations
 
-MiniRAG was meant as a personal project to further my own understanding of how LLM-based applications are deployed in cloud-based environments. At its current state, *it is more of a toy than a serious candidate for cloud deployment*. In order to improve the project towards a potential production environment, several points need to be addressed, such as the usage of a dedicated embedding model, which would possibly perform better at RAG than the current reused llama, and the addition of GPU bindings to improve response time (it is, as of now, VERY SLOW, even using models on the lighter side, whose perdformance is somewhat hindered by their minimal-ness). Additionally, due to memoory constraints, previous conversation logs are not stored in context, though this would be vital when deploying a chatbot.
+MiniRAG was meant as a personal project to further my own understanding of how LLM-based applications are deployed in cloud-based environments. At its current state, *it is more of a toy than a serious candidate for cloud deployment*. In order to improve the project towards a potential production environment, several points need to be addressed, such as the usage of a dedicated embedding model, which would possibly perform better at RAG than the current reused llama, and the addition of GPU bindings to improve response time (it is, as of now, VERY SLOW, even using models on the lighter side, whose perdformance is somewhat hindered by their minimal-ness). Additionally, due to memory constraints, previous conversation logs are not stored in context, though this would be vital when deploying a chatbot.
 
 ### TODO
+>With more memory, in an actual cloud environment, migration to Langchain probably offers more functionality (like conversation logs)
 
 >Maybe a frontend? Feel free to PR
+
