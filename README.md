@@ -16,3 +16,8 @@ TODO When final main API is ready ;)
 ## Additional considerations
 
 MiniRAG was meant as a personal project to further my own understanding of how LLM-based applications are deployed in cloud-based environments. At its current state, it is more of a toy than a serious undertaking. In order to improve the project towards a potential production environment, several points need to be addressed, such as the usage of a dedicated embedding model, which would possibly perform better at RAG than the current reused llama, and the addition of GPU bindings to improve response time (it is, as of now, VERY SLOW, even using models on the lighter side, whose perdformance is somewhat hindered by their minimal-ness).
+
+### TODO
+>Go main API
+>Deployment script
+>Maybe a frontend?
