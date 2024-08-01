@@ -1,1 +1,0 @@
-This is a pending work. It is intended to be a frontend for the miniRAG project, but frontend is somewhat outside of my expertise. WIP

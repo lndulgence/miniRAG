@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mainAPI.fullname" . }}
+  name: {{ include "mainapi.fullname" . }}
   labels:
-    {{- include "mainAPI.labels" . | nindent 4 }}
+    {{- include "mainapi.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "mainAPI.selectorLabels" . | nindent 6 }}
+      {{- include "mainapi.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "mainAPI.labels" . | nindent 8 }}
+        {{- include "mainapi.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,11 +27,12 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "mainAPI.serviceAccountName" . }}
+      serviceAccountName: {{ include "mainapi.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          command: ["./mainAPI" ]
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -54,6 +55,27 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      env:
+        {{- if .Values.llama.port }}
+        - name: LLAMA_HTTP_PORT
+          value: "{{ .Values.llama.port }}"
+        {{- end }}
+        {{- if .Values.llama.host }}
+        - name: LLAMA_HTTP_HOST
+          value: "{{ .Values.llama.host }}"
+        {{- end }}
+        {{- if .Values.ragapi.port }}
+        - name: RAG_HTTP_PORT
+          value: "{{ .Values.ragapi.port }}"
+        {{- end }}
+        {{- if .Values.ragapi.host }}
+        - name: RAG_HTTP_HOST
+          value: "{{ .Values.ragapi.host }}"
+        {{- end }}
+        {{- if .Values.sysprompt }}
+        - name: SYSPROMPT
+          value: "{{ .Values.sysprompt }}"
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

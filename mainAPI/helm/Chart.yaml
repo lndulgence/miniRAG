@@ -1,5 +1,5 @@
 apiVersion: v2
-name: mainAPI
+name: mainapi
 description: The main REST entry point for the application.
 
 # A chart can be either an 'application' or a 'library' chart.
