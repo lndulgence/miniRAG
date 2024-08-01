@@ -117,6 +117,8 @@ weaviate:
   grpcPort: 50051
   # The host the grpc service listens on
   grpcHost: weaviate-grpc.default.svc.cluster.local
+  # The collection for the deployed use case
+  collection: "Docs"
 
 llama:
   # The port the service listens on

@@ -1,7 +1,15 @@
+"""
+This module contains a function to check DNS resolution for a given pod url.
+"""
 import subprocess
 import time    
 
 def check_dns_resolution(pod_name, count=5):
+    """
+    Check DNS resolution for a given pod name, and retry multiple times if the resolution fails.
+    In the event of a successful DNS resolution, the function prints a success message.
+    Otherwise, it eventually raises an exception.
+    """
     while True:
         if count == 0:
             raise Exception(f"DNS resolution for {pod_name} failed after multiple retries")

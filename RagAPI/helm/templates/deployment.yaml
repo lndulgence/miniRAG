@@ -76,6 +76,10 @@ spec:
             - name: LLAMA_HTTP_HOST
               value: "{{ .Values.llama.host }}"
             {{- end }}
+            {{- if .Values.weaviate.collection }}
+            - name: CASE_COLLECTION
+              value: "{{ .Values.weaviate.collection }}"
+            {{- end }}
 
 
       {{- with .Values.volumes }}

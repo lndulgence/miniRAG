@@ -1,6 +1,6 @@
 apiVersion: v2
 name: mainAPI
-description: A Helm chart for Kubernetes
+description: The main REST entry point for the application.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
