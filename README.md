@@ -19,5 +19,7 @@ MiniRAG was meant as a personal project to further my own understanding of how L
 
 ### TODO
 >Go main API
+
 >Deployment script
+
 >Maybe a frontend?
